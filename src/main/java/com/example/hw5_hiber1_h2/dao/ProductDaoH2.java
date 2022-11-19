@@ -8,7 +8,6 @@ import org.hibernate.Transaction;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import javax.persistence.EntityManagerFactory;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -40,9 +39,9 @@ public class ProductDaoH2 implements ProductDao {
     @Override
     public List<Product> findAll() {
         List<Product> products = new ArrayList<>();
-        try(Session session = factory.getCurrentSession()){
+        try (Session session = factory.getCurrentSession()) {
             Transaction transaction = session.beginTransaction();
-            products = session.createQuery("from Product").getResultList();
+            products = session.createQuery("select p from Product p").getResultList();
             transaction.commit();
         }
         return products;
@@ -51,7 +50,7 @@ public class ProductDaoH2 implements ProductDao {
     @Override
     public Optional<Product> findById(Long id) {
         Product product;
-        try(Session session = factory.getCurrentSession()){
+        try (Session session = factory.getCurrentSession()) {
             Transaction transaction = session.beginTransaction();
             product = session.get(Product.class, id);
             transaction.commit();
@@ -61,7 +60,7 @@ public class ProductDaoH2 implements ProductDao {
 
     @Override
     public Product saveOrUpdate(Product p) {
-        try(Session session = factory.getCurrentSession()){
+        try (Session session = factory.getCurrentSession()) {
             Transaction transaction = session.beginTransaction();
             session.saveOrUpdate(p);
             transaction.commit();
@@ -71,7 +70,7 @@ public class ProductDaoH2 implements ProductDao {
 
     @Override
     public void deleteById(Long id) {
-        try(Session session = factory.getCurrentSession()){
+        try (Session session = factory.getCurrentSession()) {
             Transaction transaction = session.beginTransaction();
             session.createQuery("delete Product where id = :param").setParameter("param", id).executeUpdate();
             transaction.commit();

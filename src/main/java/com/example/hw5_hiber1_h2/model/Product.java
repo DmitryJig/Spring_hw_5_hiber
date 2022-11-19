@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Table(name = "products")
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
+//@AllArgsConstructor
 public class Product {
 
     @Id
@@ -24,7 +24,7 @@ public class Product {
     @Column(name = "cost")
     private Double cost;
 
-    public Product(String title, Double cost){
+    public Product(String title, Double cost) {
         this.title = title;
         this.cost = cost;
     }
